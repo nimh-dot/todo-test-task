@@ -1,6 +1,6 @@
 import './App.css';
 import { ITodo } from './types/data';
-import { ChangeEventHandler, KeyboardEventHandler, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 function App() {
   const [todos, setTodos] = useState<ITodo[]>([]);
@@ -10,7 +10,7 @@ function App() {
 
   console.log(todos, value, filter);
 
-  const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
+  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
       if (e.key === 'Enter' && value.length) { //trim length
         const NEW_TODOS = [...todos,{
           id: Date.now(),
@@ -23,17 +23,17 @@ function App() {
       } 
   }
 
-  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
       setValue(e.target.value);
   }
 
   let displayTodos = todos;
 
-  const toggleFilter = (e) => {
-    setFilter(e.target.value);
+  const toggleFilter: React.MouseEventHandler<HTMLButtonElement> = (event: React.MouseEvent<T, MouseEvent>) => {
+    setFilter(event.target.value);
   }
 
-  const toggleComplete = (taskId: number) => {
+  const toggleComplete = (taskId: number): void => {
     setTodos([...todos.map((todo) => {
       if (todo.id === taskId) {
         return {
@@ -51,9 +51,12 @@ function App() {
     });
   }
 
-  const clearCompleted = () => {
+  const clearCompleted: React.MouseEventHandler<HTMLButtonElement> = () => {
     setTodos(todos.filter(todo => !todo.isComplete));
   }
+
+  const itemsLeft = displayTodos.filter((todo) => !todo.isComplete).length; // use reduce
+  const countCompleted = todos.filter((todo) => todo.isComplete).length; // use reduce
 
   return (
     <>
@@ -67,7 +70,7 @@ function App() {
         ref={inputRef}
         autoFocus={true}
       />
-      <ul>
+      <ul style={{minHeight: '200px'}}>
         {displayTodos.map((todo) => (
           <li key={todo.id}>
             <label>
@@ -82,16 +85,15 @@ function App() {
         ))}
       </ul>
       <div>
-        <span>{
-          displayTodos.filter((todo) => !todo.isComplete).length
-          } items left
+        <span>
+          { itemsLeft ? `${itemsLeft} items left` : `no active tasks`} 
         </span>
 
-        <button onClick={e => toggleFilter(e)} value={'All'}>All</button>
-        <button onClick={toggleFilter} value={'Active'}>Active</button>
-        <button onClick={toggleFilter} value={'Completed'}>Completed</button>
+        <button onClick={e => toggleFilter(e)} value={'All'} disabled={'All' === filter}>All</button>
+        <button onClick={toggleFilter} value={'Active'} disabled={'Active' === filter}>Active</button>
+        <button onClick={toggleFilter} value={'Completed'} disabled={'Completed' === filter}>Completed</button>
 
-        <button onClick={clearCompleted}>Clear completed</button>
+        <button onClick={clearCompleted} disabled={countCompleted === 0}>Clear completed</button>
 
       </div>
     </>
