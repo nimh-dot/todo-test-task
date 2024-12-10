@@ -1,0 +1,19 @@
+.todo__item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 2px solid rgb(237,237,237) ;
+    display: flex;
+    align-items: center;
+}
+
+.todo__input {
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border: 1px solid #555555;
+    border-radius: 50%;
+}
+
+.todo__input:checked {
+    background-color: #555555;
+}

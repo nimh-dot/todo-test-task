@@ -1,0 +1,15 @@
+.input {
+    width: 99%;
+    
+    font-size: 25px;
+    padding: 5px;
+    border: none;
+    outline: none;
+    background: transparent;
+    border-bottom: 2px solid rgb(237,237,237) ;
+    
+}
+.input::placeholder{
+    color: rgb(223,223,223);
+    font-style: italic;
+}

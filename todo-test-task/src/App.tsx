@@ -1,31 +1,23 @@
 import './App.css';
+import AddTodo from './components/AddTodo/AddTodo';
+import Control from './components/Control/Control';
+import TodoList from './components/TodoList/TodoList';
 import { ITodo } from './types/data';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
-function App() {
+const App = () => {
   const [todos, setTodos] = useState<ITodo[]>([]);
-  const [value, setValue] = useState('');
   const [filter, setFilter] = useState('All');
-  const inputRef = useRef<HTMLInputElement>(null);
 
-  console.log(todos, value, filter);
+  const updateTodos = (newTodo: string) => {
+    const NEW_TODOS = [...todos,{
+      id: Date.now(),
+      title: newTodo,
+      isComplete: false
+    }]
 
-  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
-      if (e.key === 'Enter' && value.length) { //trim length
-        const NEW_TODOS = [...todos,{
-          id: Date.now(),
-          title: value,
-          isComplete: false
-        }]
-
-        setTodos(NEW_TODOS);
-        setValue('');
-      } 
-  }
-
-  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-      setValue(e.target.value);
-  }
+    setTodos(NEW_TODOS);
+  } 
 
   let displayTodos = todos;
 
@@ -61,41 +53,15 @@ function App() {
   return (
     <>
       <h1>todos</h1>
-      <input 
-        value={value} 
-        type='text'
-        placeholder='What needs to be done?'
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-        ref={inputRef}
-        autoFocus={true}
+      <AddTodo updateTodos={updateTodos}/>
+      <TodoList displayTodos={displayTodos} toggleComplete={toggleComplete}/>
+      <Control 
+        toggleFilter={toggleFilter} 
+        countCompleted={countCompleted} 
+        clearCompleted={clearCompleted}
+        itemsLeft={itemsLeft}
+        filter={filter}
       />
-      <ul style={{minHeight: '200px'}}>
-        {displayTodos.map((todo) => (
-          <li key={todo.id}>
-            <label>
-            {todo.title}
-              <input 
-                  type="checkbox" 
-                  checked={todo.isComplete} 
-                  onChange={() => toggleComplete(todo.id)}
-              />
-            </label>
-          </li>
-        ))}
-      </ul>
-      <div>
-        <span>
-          { itemsLeft ? `${itemsLeft} items left` : `no active tasks`} 
-        </span>
-
-        <button onClick={e => toggleFilter(e)} value={'All'} disabled={'All' === filter}>All</button>
-        <button onClick={toggleFilter} value={'Active'} disabled={'Active' === filter}>Active</button>
-        <button onClick={toggleFilter} value={'Completed'} disabled={'Completed' === filter}>Completed</button>
-
-        <button onClick={clearCompleted} disabled={countCompleted === 0}>Clear completed</button>
-
-      </div>
     </>
   )
 }

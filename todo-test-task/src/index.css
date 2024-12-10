@@ -1,14 +1,18 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+body,
+html {
+  font-family: Roboto, Helvetica, sans-serif;
+}
 
-  color-scheme: light dark;
-  color: rgba(46, 46, 46, 0.87);
-  background-color: #ffffff;
+@font-face {
+    font-family: "QuickSandMedium";
+    src: local("QuickSandMedium"),
+     url("./assets/fonts/Quicksand/static/Quicksand-Medium.ttf") format("truetype");
+    font-weight: medium;
+}
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face {
+    font-family: "Garet";
+    src: local("Garet"),
+    url("./assets/fonts/Garet/Garet-Book.ttf") format("truetype");
+    font-weight: medium;
 }
