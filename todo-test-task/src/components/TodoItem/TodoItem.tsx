@@ -1,16 +1,24 @@
+import { ITodo } from '../../types/data';
 import styles from './TodoItem.module.css';
 
-const TodoItem = ({todo, toggleComplete}) => {
+export interface ITodoItemProps {
+    todo: ITodo
+    toggleComplete: (id: number) => void
+    disabled: boolean
+}
+
+const TodoItem: React.FC<ITodoItemProps> = ({todo, toggleComplete}) => {
 
 return (
-    <li key={todo.id} className={styles.todo__item}>
-        <label>
-            <input className={styles.todo__input}
+    <li key={todo.id} className={styles.item}>
+        { todo.isComplete ? <div className={styles.tick}></div>: null}
+        <label className={[styles.label, (todo.isComplete ? styles.labelChecked : '')].join(' ')}>
+            <input className={[styles.checkbox, (todo.isComplete ? styles.checkboxChecked : '')].join(' ')}
                 type="checkbox" 
                 checked={todo.isComplete} 
                 onChange={() => toggleComplete(todo.id)}
             />
-            {todo.title}
+            <span className={styles.title}>{todo.title}</span>
         </label>
     </li>
     )
