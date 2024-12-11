@@ -47,8 +47,11 @@ const App = () => {
     setTodos(todos.filter(todo => !todo.isComplete));
   }
 
-  const itemsLeft = displayTodos.filter((todo) => !todo.isComplete).length; // use reduce
   const countCompleted = todos.filter((todo) => todo.isComplete).length; // use reduce
+  const tasksLeft = useMemo(() => {
+    console.log('call itemsLeft')
+    return todos.reduce((active: number, task: ITodo) => !task.isComplete ? ++active : active, 0);
+  }, [todos]);
 
   return (
     <>
