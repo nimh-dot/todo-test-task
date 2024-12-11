@@ -1,9 +1,13 @@
 .control {
-    width: 90%;
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
+    margin: 5px;
     font-size: 15px;
     margin-bottom: 10px;
     color: rgb(150,150,150);
+}
+
+.status {
+    display: block;
+    min-width: 100px;
 }

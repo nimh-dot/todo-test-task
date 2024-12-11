@@ -1,18 +1,26 @@
+import ControlButton from '../UI/ControlButton/ControlButton';
 import styles from './Control.module.css';
 
+export interface IControlProps {
+  children: string
+  filter?: string
+  handle: (filter?: string) => void
+}
 
-const Control = ({toggleFilter, countCompleted, clearCompleted, itemsLeft, filter}) => {
+const Control = ({disableClearCompleted, clearCompleted, tasksLeft, filter, setFilter}) => {
   return (
     <div className={styles.control}>
-        <span>
-          { itemsLeft ? `${itemsLeft} items left` : `no active tasks`} 
+        <span className={styles.status}>
+          { tasksLeft ? `${tasksLeft} items left` : `no active tasks`} 
         </span>
 
-        <button onClick={e => toggleFilter(e)} value={'All'} disabled={'All' === filter}>All</button>
-        <button onClick={toggleFilter} value={'Active'} disabled={'Active' === filter}>Active</button>
-        <button onClick={toggleFilter} value={'Completed'} disabled={'Completed' === filter}>Completed</button>
+        <div>
+          <ControlButton handle={setFilter} filter={filter }>All</ControlButton>
+          <ControlButton handle={setFilter} filter={filter}>Active</ControlButton>
+          <ControlButton handle={setFilter} filter={filter}>Completed</ControlButton>
+        </div>
 
-        <button onClick={clearCompleted} disabled={countCompleted === 0}>Clear completed</button>
+        <ControlButton handle={clearCompleted} disabled={disableClearCompleted}>Clear completed</ControlButton>
     </div>
   )
 }
