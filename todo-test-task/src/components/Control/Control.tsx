@@ -1,12 +1,10 @@
-import { PropsWithChildren } from 'react';
 import ControlButton from '../UI/ControlButton/ControlButton';
 import styles from './Control.module.css';
 
-interface IControlProps extends PropsWithChildren {
-  children: string
+interface IControlProps {
   filter?: string
-  clearCompleted: (filter?: string | null) => void
-  setFilter: (filter?: string | null) => void
+  clearCompleted: React.MouseEventHandler<HTMLButtonElement>
+  setFilter:  React.Dispatch<React.SetStateAction<string>>
   disableClearCompleted: boolean
   tasksLeft: number
 }
@@ -26,12 +24,12 @@ const Control: React.FC<IControlProps> = ({
         </span>
 
         <div>
-          <ControlButton handle={setFilter} filter={filter }>All</ControlButton>
-          <ControlButton handle={setFilter} filter={filter}>Active</ControlButton>
-          <ControlButton handle={setFilter} filter={filter}>Completed</ControlButton>
+          <ControlButton handleClick={setFilter} filter={filter }>All</ControlButton>
+          <ControlButton handleClick={setFilter} filter={filter}>Active</ControlButton>
+          <ControlButton handleClick={setFilter} filter={filter}>Completed</ControlButton>
         </div>
 
-        <ControlButton handle={clearCompleted} disabled={disableClearCompleted}>Clear completed</ControlButton>
+        <ControlButton handleClick={clearCompleted} disabled={disableClearCompleted}>Clear completed</ControlButton>
     </div>
   )
 }
