@@ -37,11 +37,16 @@ const App = () => {
     })]);
   }
 
-  if (filter !== 'All') {
-    displayTodos = todos.filter(todo => {
-      return todo.isComplete === (filter === 'Completed');
-    });
-  }
+  useEffect(() => {
+    if (filter === 'All') {
+      setDisplayedTasks(todos);
+    } else {
+      const displayTodos: ITodo[] = todos.filter(todo => {
+        return todo.isComplete === (filter === 'Completed');
+      });
+      setDisplayedTasks(displayTodos);
+    }
+  }, [todos, filter]);
 
   const clearCompleted: React.MouseEventHandler<HTMLButtonElement> = () => {
     setTodos(todos.filter(todo => !todo.isComplete));
