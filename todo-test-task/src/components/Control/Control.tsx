@@ -1,13 +1,24 @@
+import { PropsWithChildren } from 'react';
 import ControlButton from '../UI/ControlButton/ControlButton';
 import styles from './Control.module.css';
 
-export interface IControlProps {
+interface IControlProps extends PropsWithChildren {
   children: string
   filter?: string
-  handle: (filter?: string) => void
+  clearCompleted: (filter?: string | null) => void
+  setFilter: (filter?: string | null) => void
+  disableClearCompleted: boolean
+  tasksLeft: number
 }
 
-const Control = ({disableClearCompleted, clearCompleted, tasksLeft, filter, setFilter}) => {
+const Control: React.FC<IControlProps> = ({
+    disableClearCompleted, 
+    clearCompleted, 
+    tasksLeft, 
+    filter, 
+    setFilter
+  }) => {
+
   return (
     <div className={styles.control}>
         <span className={styles.status}>
