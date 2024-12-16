@@ -3,10 +3,10 @@ import styles from './Control.module.css';
 
 interface IControlProps {
   filter?: string
-  clearCompleted: React.MouseEventHandler<HTMLButtonElement>
-  setFilter:  React.Dispatch<React.SetStateAction<string>>
   disableClearCompleted: boolean
   tasksLeft: number
+  clearCompleted: React.MouseEventHandler<HTMLButtonElement>
+  setFilter:  React.Dispatch<React.SetStateAction<string>>
 }
 
 const Control: React.FC<IControlProps> = ({

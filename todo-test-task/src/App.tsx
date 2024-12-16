@@ -1,15 +1,34 @@
 import './App.css';
 import AddTodo from './components/AddTodo/AddTodo';
-import Control from './components/Control/Control';
 import TodoList from './components/TodoList/TodoList';
+import Control from './components/Control/Control';
 import { ITodo } from './types/data';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+
+const INITIAL_DATA: ITodo[] = [
+  {
+    id: 1,
+    title: 'написать в телеграмм @bromleyby',
+    isComplete: false
+  },
+  {
+    id: 2,
+    title: 'позвонить +7 (982) 8477432',
+    isComplete: false
+  },
+  {
+    id: 3,
+    title: 'предложить оффер',
+    isComplete: false
+  },
+];
 
 const App = () => {
-  const [todos, setTodos] = useState<ITodo[]>([]);
+  const [todos, setTodos] = useState<ITodo[]>(INITIAL_DATA);
   const [filter, setFilter] = useState('All');
+  const [displayedTasks, setDisplayedTasks] = useState<ITodo[]>([]);
 
-  const updateTodos = (newTodo: string) => {
+  const addTodo = useCallback((newTodo: string) => {
     const NEW_TODOS = [...todos,{
       id: Date.now(),
       title: newTodo,
@@ -17,15 +36,9 @@ const App = () => {
     }]
 
     setTodos(NEW_TODOS);
-  } 
+  }, [todos])
 
-  let displayTodos = todos;
-
-  const toggleFilter: React.MouseEventHandler<HTMLButtonElement> = (event: React.MouseEvent<T, MouseEvent>) => {
-    setFilter(event.target.value);
-  }
-
-  const toggleComplete = (taskId: number): void => {
+  const toggleTaskCompleted = (taskId: number): void => {
     setTodos([...todos.map((todo) => {
       if (todo.id === taskId) {
         return {
@@ -52,23 +65,19 @@ const App = () => {
     setTodos(todos.filter(todo => !todo.isComplete));
   }
 
-  const countCompleted = todos.filter((todo) => todo.isComplete).length; // use reduce
-  const tasksLeft = useMemo(() => {
-    console.log('call itemsLeft')
-    return todos.reduce((active: number, task: ITodo) => !task.isComplete ? ++active : active, 0);
-  }, [todos]);
+  const tasksLeft = todos.reduce((active: number, task: ITodo) => !task.isComplete ? ++active : active, 0);
 
   return (
     <>
       <h1>todos</h1>
-      <AddTodo updateTodos={updateTodos}/>
-      <TodoList displayTodos={displayTodos} toggleComplete={toggleComplete}/>
+      <AddTodo addTodo={addTodo}/>
+      <TodoList displayTodos={displayedTasks} toggleComplete={toggleTaskCompleted}/>
       <Control 
-        toggleFilter={toggleFilter} 
-        countCompleted={countCompleted} 
+        tasksLeft={tasksLeft} 
         clearCompleted={clearCompleted}
-        itemsLeft={itemsLeft}
+        disableClearCompleted={tasksLeft === todos.length}
         filter={filter}
+        setFilter={setFilter} 
       />
     </>
   )
