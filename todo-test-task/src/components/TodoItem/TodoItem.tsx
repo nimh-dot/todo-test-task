@@ -19,7 +19,7 @@ const TodoItem: React.FC<ITodoItemProps> = ({todo, toggleComplete}) => {
     })
 
     return (
-        <li key={todo.id} className={styles.item}>
+        <li className={styles.item}>
             <label className={labelClass}>
                 <input className={inputClass}
                     type="checkbox" 
