@@ -10,18 +10,23 @@ const data: ITodo = {
 
 describe('TodoItem', () => {
     it('renders the TodoItem component', () => {
-      render(<TodoItem todo={data} toggleComplete={() => {}}/>)
-      screen.debug()
+        render(<TodoItem todo={data} toggleComplete={() => {}}/>)
+        screen.debug()
     })
   
     it('list item and checkbox are present', () => {
-      render(<TodoItem todo={data} toggleComplete={() => {}}/>)
-      expect(screen.getByRole('checkbox')).toBeInTheDocument()
-      expect(screen.getByRole('listitem')).toBeInTheDocument()
+        render(<TodoItem todo={data} toggleComplete={() => {}}/>)
+        expect(screen.getByRole('checkbox')).toBeInTheDocument()
+        expect(screen.getByRole('listitem')).toBeInTheDocument()
     })
   
     it('input field placeholder correct', () => {
-      render(<TodoItem todo={data} toggleComplete={() => {}}/>)
-      expect(screen.getByText(`${data.title}`)).toBeInTheDocument()
+        render(<TodoItem todo={data} toggleComplete={() => {}}/>)
+        expect(screen.getByText(`${data.title}`)).toBeInTheDocument()
+    })
+
+    it('TodoItem snapshot', () => {
+        const item = render(<TodoItem todo={data} toggleComplete={() => {}}/>)
+        expect(item).toMatchSnapshot()
     })
   })

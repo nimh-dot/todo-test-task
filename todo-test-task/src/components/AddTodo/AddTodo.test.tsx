@@ -37,4 +37,9 @@ describe('AddTodo', () => {
     await userEvent.type(screen.getByRole('textbox'), `new task{enter}`)
     expect(handler).toHaveBeenCalled()
   })
+
+  it('AddTodo snapshot', () => {
+    const component = render(<AddTodo addTodo={addTodo}/>)
+    expect(component).toMatchSnapshot()
+})
 })
