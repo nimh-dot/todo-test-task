@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import styles from './AddTodo.module.css';
 
 interface IAddTodoProps {
@@ -6,7 +6,6 @@ interface IAddTodoProps {
 }
 
 const AddTodo: React.FC<IAddTodoProps> = ({addTodo}) => {
-    const inputRef = useRef<HTMLInputElement>(null);
     const [newTask, setNewTask] = useState<string>('');
 
     const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
@@ -16,18 +15,13 @@ const AddTodo: React.FC<IAddTodoProps> = ({addTodo}) => {
         } 
     };
 
-    const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        setNewTask(e.target.value);
-    };
-
     return (
         <input className={styles.input}
             value={newTask} 
             type='text'
             placeholder='What needs to be done?'
-            onChange={handleChange}
+            onChange={(e) => setNewTask(e.target.value)}
             onKeyDown={handleKeyDown}
-            ref={inputRef}
             autoFocus={true}
         />
     )
