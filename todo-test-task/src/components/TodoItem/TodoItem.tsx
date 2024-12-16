@@ -1,5 +1,6 @@
 import { ITodo } from '../../types/data';
 import styles from './TodoItem.module.css';
+import cn from 'classnames';
 
 interface ITodoItemProps {
     todo: ITodo
@@ -7,11 +8,20 @@ interface ITodoItemProps {
 }
 
 const TodoItem: React.FC<ITodoItemProps> = ({todo, toggleComplete}) => {
+    const inputClass = cn({
+        [styles.checkbox]: true,
+        [styles.checkboxChecked]: todo.isComplete
+    })
+
+    const labelClass = cn({
+        [styles.label]: true,
+        [styles.labelChecked]: todo.isComplete
+    })
 
     return (
         <li key={todo.id} className={styles.item}>
-            <label className={[styles.label, (todo.isComplete ? styles.labelChecked : '')].join(' ')}>
-                <input className={[styles.checkbox, (todo.isComplete ? styles.checkboxChecked : '')].join(' ')}
+            <label className={labelClass}>
+                <input className={inputClass}
                     type="checkbox" 
                     checked={todo.isComplete} 
                     onChange={() => {toggleComplete(todo.id)}}
